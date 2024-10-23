@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import Register from './SchoolComponents/Register'
 // import Header from './SchoolComponents/Header'
 // import { BrowserRouter,Routes,Route } from 'react-router-dom'
 // import Hero from './SchoolComponents/Hero'
@@ -9,7 +10,7 @@ import './index.css'
 // import Cbtquestions from './SchoolComponents/Cbtquestions'
 // import Contactus from './SchoolComponents/Contactus'
 
-import Login from './SchoolComponents/Login'
+
 
 
 
@@ -30,6 +31,6 @@ createRoot(document.getElementById('root')).render(
     
     </BrowserRouter> */}
 
-    <Login/>
+    <Register/>
   </StrictMode>,
 )

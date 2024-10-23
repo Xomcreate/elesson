@@ -3,7 +3,8 @@ import React from 'react'
 function Login() {
   return (
     <div className=' h-[100vh] w-[100vw] grid justify-center items-center'>
-        <div className=' bg-[#e2e2e2] h-[60vh] w-[40vw] grid grid-rows-6' >
+       <form action="">
+       <div className=' bg-[#e2e2e2] h-[60vh] w-[40vw] grid grid-rows-6' >
             <div className=' bg-[#e4e4e3] row-span-1 grid justify-center items-center font-bold text-[20px] font-mono'>
                 👨‍🎓Student Login
             </div>
@@ -22,6 +23,7 @@ function Login() {
                 </div>
             </div>
         </div>
+       </form>
     </div>
   )
 }
