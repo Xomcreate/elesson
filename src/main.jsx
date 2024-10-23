@@ -1,21 +1,24 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Header from './SchoolComponents/Header'
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
-import Hero from './SchoolComponents/Hero'
-import About from './SchoolComponents/About'
-import Pastquestions from './SchoolComponents/Pastquestions'
-import Cbtquestions from './SchoolComponents/Cbtquestions'
-import Contactus from './SchoolComponents/Contactus'
+// import Header from './SchoolComponents/Header'
+// import { BrowserRouter,Routes,Route } from 'react-router-dom'
+// import Hero from './SchoolComponents/Hero'
+// import About from './SchoolComponents/About'
+// import Pastquestions from './SchoolComponents/Pastquestions'
+// import Cbtquestions from './SchoolComponents/Cbtquestions'
+// import Contactus from './SchoolComponents/Contactus'
+
+import Login from './SchoolComponents/Login'
 
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* <BrowserRouter>
     <Header/>
+   
       < Routes>
       <Route path='/' element= {<Hero/>} />
       <Route path='/about' element= {<About/>} />
@@ -24,6 +27,9 @@ createRoot(document.getElementById('root')).render(
       <Route path='/contact' element= {<Contactus/>} />
       
       </Routes>
-    </BrowserRouter>
+    
+    </BrowserRouter> */}
+
+    <Login/>
   </StrictMode>,
 )
