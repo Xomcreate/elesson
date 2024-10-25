@@ -9,13 +9,8 @@ import Pastquestions from './SchoolComponents/Pastquestions'
 import Cbtquestions from './SchoolComponents/Cbtquestions'
 import Contactus from './SchoolComponents/Contactus'
 import Blog from './SchoolComponents/Blog'
-<<<<<<< HEAD
 import Footer from './SchoolComponents/Footer'
 
-=======
-import Login from './SchoolComponents/Login'
-import Register from './SchoolComponents/Register'
->>>>>>> 33bcb9223eb655b1e5f294c50957f63a7f4c492b
 
 
 
@@ -33,12 +28,7 @@ createRoot(document.getElementById('root')).render(
       <Route path='/contact' element= {<Contactus/>} />   
       </Routes>
     </BrowserRouter>
-<<<<<<< HEAD
     <Footer/>
     
-=======
-    <Register/>
-    <Login/>
->>>>>>> 33bcb9223eb655b1e5f294c50957f63a7f4c492b
   </StrictMode>,
 )
