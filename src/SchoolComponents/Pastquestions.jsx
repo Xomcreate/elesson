@@ -1,9 +1,8 @@
 import React from 'react'
 
-
 function Pastquestions() {
   return (
-    <div></div>
+    <div>Pastquestions</div>
   )
 }
 
