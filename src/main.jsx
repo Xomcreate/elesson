@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// main.jsx
+>>>>>>> 1fa62a61db1f5f0045a1efbc814b644436dc4d80
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
@@ -28,4 +32,8 @@ createRoot(document.getElementById('root')).render(
       <Footer />
     </BrowserRouter>
   </StrictMode>
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 1fa62a61db1f5f0045a1efbc814b644436dc4d80
