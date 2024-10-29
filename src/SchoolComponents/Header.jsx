@@ -1,12 +1,16 @@
+
 import React, { useState } from 'react';
 import { FaEdgeLegacy } from "react-icons/fa6";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { motion } from 'framer-motion';
 import { FaBars, FaTimes } from "react-icons/fa";
+import Login from './Login'; // Import Login component
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogin, setShowLogin] = useState(false); // State to show/hide login popup
   const location = useLocation(); // To track active route
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   // Framer Motion animation for the mobile menu
   const menuVariants = {
@@ -38,10 +42,10 @@ function Header() {
 
   return (
     <>
-      <div className='bg-gradient-to-r from-[#4141da] to-[#3b82f6] w-full h-[10vh] flex justify-between items-center px-4 shadow-lg'>
+      <div className='bg-gradient-to-r from-[#3f3f74] to-[#3f3f74] w-full h-[10vh] flex justify-between items-center px-4 shadow-lg'>
         {/* Logo Section */}
         <div className='flex ml-[40px] items-center text-white text-[25px] font-bold'>  
-          <FaEdgeLegacy className='text-[orangered] text-[25px] animate-pulse' /><p>-School</p> 
+          <FaEdgeLegacy className='text-[orangered] text-[30px] animate-pulse' /><p>-lesson</p> 
         </div>
 
         {/* Menu for larger screens */}
@@ -51,30 +55,34 @@ function Header() {
               <Link to='/'>Home</Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/about' ? 'text-[orangered]' : ''}`}>
-              <Link to='/about'>About</Link>
+              <Link to='/About'>About</Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/cbt' ? 'text-[orangered]' : ''}`}>
-              <Link to='/cbt'>CBT Questions</Link>
+              <Link to='/CBT Exam'>CBT Exam</Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/past' ? 'text-[orangered]' : ''}`}>
-              <Link to='/past'>Past Questions</Link>
+              <Link to='/Past Questions'>Past Questions</Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/blog' ? 'text-[orangered]' : ''}`}>
-              <Link to='/blog'>Blog</Link>
+              <Link to='/Blog'>Blog</Link>
             </li>
             <li className='hover:text-yellow-400 transition-all duration-300'>FAQ</li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/contact' ? 'text-[orangered]' : ''}`}>
-              <Link to='/contact'>Contacts</Link>
+              <Link to='/Contact'>Contacts</Link>
             </li>
           </ul>
         </div>
 
         {/* Buttons Section for larger screens */}
         <div className='hidden md:flex gap-4'>
-          <button className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[8vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
+          <button 
+            onClick={() => navigate('/register')} // Navigate to Register page on click
+            className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[8vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
             Register
           </button>
-          <button className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[8vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
+          <button 
+            onClick={() => setShowLogin(true)} // Show login popup on click
+            className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[8vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
             Login
           </button>
         </div>
@@ -99,14 +107,14 @@ function Header() {
         variants={menuVariants}
       >
         <ul className='flex flex-col items-center gap-[20px] py-4'>
-          {['/', '/about', '/cbt', '/past', '/blog', '/contact'].map((path, index) => (
+          {['/', '/About', '/CBT Exam', '/Past Questions', '/Blog', '/Contact'].map((path, index) => (
             <motion.li 
               key={path} 
               variants={itemVariants}
               initial="hidden"
               animate="visible"
               transition={{ delay: index * 0.1 }}
-              className={`text-[17px] font-bold ${location.pathname === path ? 'text-[orangered]' : 'hover:text-yellow-400'} transition-all duration-300`}
+              className={`text-[15px] font-bold ${location.pathname === path ? 'text-[orangered]' : 'hover:text-yellow-400'} transition-all duration-300`}
             >
               <Link to={path} onClick={() => setIsOpen(false)}>
                 {path === '/' ? 'Home' : path.substring(1).charAt(0).toUpperCase() + path.substring(2)}
@@ -120,7 +128,9 @@ function Header() {
             animate="visible"
             transition={{ delay: 0.6 }}
           >
-            <button className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[60vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
+            <button 
+              onClick={() => navigate('/register')} // Navigate to Register page on click
+              className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[60vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
               Register
             </button>
           </motion.li>
@@ -131,12 +141,17 @@ function Header() {
             animate="visible"
             transition={{ delay: 0.7 }}
           >
-            <button className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[60vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
+            <button 
+              onClick={() => { setIsOpen(false); setShowLogin(true); }} // Show login popup and close mobile menu
+              className='bg-gradient-to-r from-[orangered] to-[#ff7300] text-white text-[15px] h-[4vh] w-[60vw] rounded-lg hover:bg-yellow-400 transition-all duration-300'>
               Login
             </button>
           </motion.li>
         </ul>
       </motion.div>
+
+      {/* Login Popup Modal */}
+      {showLogin && <Login onClose={() => setShowLogin(false)} />} {/* Render Login component conditionally */}
     </>
   );
 }

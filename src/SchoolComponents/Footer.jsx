@@ -1,73 +1,98 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { FaLaptop } from "react-icons/fa6";
 import { IoMdContact } from "react-icons/io";
-import { FaPhoneAlt } from "react-icons/fa";
-import { FaWhatsapp } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-import { FaLinkedin } from 'react-icons/fa';
-import { FaInfo } from "react-icons/fa";
-
-
-
-
-
+import { FaPhoneAlt, FaWhatsapp, FaGithub, FaLinkedin, FaInfo } from "react-icons/fa";
+import { motion } from 'framer-motion';
+import Login from './Login';
 
 function Footer() {
-  return (
-    <div className=' bg-[#4141da] h-[50vh] w-[100vw] grid grid-cols-3'>
-        <div className='  flex flex-col pt-[50px] '>
-        <h1 className='flex justify-center items-center font-bold text-[20px] text-[white] gap-[10px] '><FaInfo className=' text-[20px]  text-[orangered] ' />Our Services</h1><br />
-        <div className=' flex justify-center' >
-          <ul className='  list-disc text-white'>
-            <li > <a href="http://localhost:5173/contact">Contacts</a></li>
-            <li>Login</li>
-            <li><a href="http://localhost:5173/cbt">CBT Questions</a></li>
-             <li><a href="http://localhost:5173/past">Past Questions</a></li>
-             <li><a href="http://localhost:5173/blog">Blog</a></li>
-          </ul>
-        </div>
-        </div>
-        <div className='  flex flex-col pt-[50px] '> 
-            <h1 className=' flex justify-center items-center font-bold text-[20px] text-[white] gap-[10px]' ><IoMdContact className=' text-[25px]  text-[orangered] '  />Contacts</h1> <br />
-            <p className=' flex '></p>
-            <div className=' ml-[165px] flex  '>
-                <ul className=' flex gap-[10px] flex-col'>
-                    <li className=' flex gap-[10px] items-center text-white'><FaPhoneAlt className='   hover:text-blue-500 transition duration-300 text-[12px] text-[white]' />09018115555, 09076084515</li>
-                    <li className=' flex gap-[10px] items-center text-white'><FaWhatsapp className=' text-[white]  hover:text-blue-500 transition duration-300 bg-[green] text-[15px] font-bold ' />09076084515</li>
-                    <li className=' flex gap-[10px] items-center text-white text-[15px]'>
-                    <a
-            href="https://github.com/Xomcreate"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-2xl hover:text-gray-400 transition duration-300"
-          >
-            <FaGithub className='  text-[15px] text-[white]' />
-          </a>
-          Kings & Prisca
-                    </li>
-                    <li className=' flex gap-[10px] items-center text-[15px] text-white'>
-                      <a
-            href="https://www.linkedin.com/in/david-igboanusi-757a66270/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-2xl hover:text-blue-500 transition duration-300"
-          >
-            <FaLinkedin className='  text-[15px] text-[white]' />
-          </a>
-          Kings & Prisca
-                    </li>
-          
-                </ul>
-            </div>
-           <div className='  flex mt-[70px] justify-center'><p className=' text-[13px] text-white'> © 2024 All rights reserved | Developed by Kings & Prisca</p></div>
-        </div>
-        <div className='  flex flex-col pt-[50px]'> 
-            <h1 className='flex justify-center items-center font-bold text-[20px] text-[white] gap-[10px] '><FaLaptop className=' text-[25px] text-[orangered]' />About Us</h1><br />
-            <p className=' text-white flex justify-center text-center '>e-lesson is an educational platform that helps student's  <br />  prepare for their awaiting examination and <br /> give them the confidence they need <br /> to carry out challenging questions </p>
-        </div>
+  const [showLogin, setShowLogin] = useState(false);
 
+  const handleLoginClick = () => setShowLogin(true);
+  const handleCloseLogin = () => setShowLogin(false);
+
+  return (
+    <div className='bg-[#3f3f74] text-white py-8 px-4 md:px-8 lg:px-16'>
+      <div className='w-full max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 border-t border-white pt-8'>
+
+        {/* Our Services Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className='flex flex-col items-center md:items-start'
+        >
+          <h1 className='flex items-center font-bold text-[20px] gap-[10px]'>
+            <FaInfo className='text-[orangered] text-[25px]' />Our Services
+          </h1>
+          <ul className='list-disc ml-10 mt-4 space-y-2 text-center md:text-left'>
+            <li><a href="/contact" className="hover:text-yellow-400">Contacts</a></li>
+            <li>
+              <span onClick={handleLoginClick} className="cursor-pointer hover:text-yellow-400">Login</span>
+            </li>
+            <li><a href="/cbt" className="hover:text-yellow-400">CBT Questions</a></li>
+            <li><a href="/past" className="hover:text-yellow-400">Past Questions</a></li>
+            <li><a href="/blog" className="hover:text-yellow-400">Blog</a></li>
+          </ul>
+        </motion.div>
+
+        {/* Contacts Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className='flex flex-col items-center md:items-start'
+        >
+          <h1 className='flex items-center font-bold text-[20px] gap-[10px]'>
+            <IoMdContact className='text-[orangered] text-[25px]' />Contacts
+          </h1>
+          <ul className='mt-4 space-y-3'>
+            <li className='flex gap-[10px] items-center'>
+              <FaPhoneAlt className='text-[white] text-[15px]' />
+              <span>09018115555, 09076084515</span>
+            </li>
+            <li className='flex gap-[10px] items-center'>
+              <FaWhatsapp className='text-[green] text-[15px]' />
+              <span>09076084515</span>
+            </li>
+            <li className='flex gap-[10px] items-center'>
+              <a href="https://github.com/Xomcreate" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400">
+                <FaGithub className='text-[15px]' />
+              </a>
+              Kings & Prisca
+            </li>
+            <li className='flex gap-[10px] items-center'>
+              <a href="https://www.linkedin.com/in/david-igboanusi-757a66270/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500">
+                <FaLinkedin className='text-[15px]' />
+              </a>
+              Kings & Prisca
+            </li>
+          </ul>
+        </motion.div>
+
+        {/* About Us Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className='flex flex-col items-center md:items-start'
+        >
+          <h1 className='flex items-center font-bold text-[20px] gap-[10px]'>
+            <FaLaptop className='text-[orangered] text-[25px]' />About Us
+          </h1>
+          <p className='mt-4 text-center md:text-left leading-relaxed'>
+            e-lesson is an educational platform that helps students prepare for their exams and boosts their confidence with challenging questions.
+          </p>
+          <p className='text-center md:text-left mt-[75px] text-[13px]'>
+            © 2024 All rights reserved | Developed by Kings & Prisca
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Login Modal */}
+      {showLogin && <Login onClose={handleCloseLogin} />}
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
