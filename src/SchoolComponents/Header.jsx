@@ -46,7 +46,7 @@ function Header() {
         {/* Logo Section */}
         <div className='flex ml-[40px] items-center text-white text-[25px] font-bold'>  
           <FaEdgeLegacy className='text-[orangered] text-[25px] animate-pulse' /><p>-lesson</p> 
->>>>>>> 1fa62a61db1f5f0045a1efbc814b644436dc4d80
+
         </div>
 
         {/* Menu for larger screens */}
