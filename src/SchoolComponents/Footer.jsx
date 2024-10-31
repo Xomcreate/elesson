@@ -12,11 +12,7 @@ function Footer() {
   const handleCloseLogin = () => setShowLogin(false);
 
   return (
-<<<<<<< HEAD
     <div className='bg-[#3f3f74] text-white py-8 px-4 md:px-8 lg:px-16'>
-=======
-    <div className='bg-[#4141da] text-white py-8 px-4 md:px-8 lg:px-16'>
->>>>>>> 1fa62a61db1f5f0045a1efbc814b644436dc4d80
       <div className='w-full max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 border-t border-white pt-8'>
 
         {/* Our Services Section */}
@@ -99,8 +95,4 @@ function Footer() {
   );
 }
 
-<<<<<<< HEAD
 export default Footer;
-=======
-export default Footer;
->>>>>>> 1fa62a61db1f5f0045a1efbc814b644436dc4d80

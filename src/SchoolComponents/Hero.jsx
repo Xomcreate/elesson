@@ -2,7 +2,6 @@ import React from 'react'
 
 function Hero() {
   return (
-<<<<<<< HEAD
     <div >hero</div>
 =======
     <div >Hero</div>
