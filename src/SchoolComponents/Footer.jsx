@@ -26,13 +26,13 @@ function Footer() {
             <FaInfo className='text-[orangered] text-[25px]' />Our Services
           </h1>
           <ul className='list-disc ml-10 mt-4 space-y-2 text-center md:text-left'>
-            <li><a href="/contact" className="hover:text-yellow-400">Contacts</a></li>
+            <li><a href="/Contact" className="hover:text-yellow-400">Contacts</a></li>
             <li>
               <span onClick={handleLoginClick} className="cursor-pointer hover:text-yellow-400">Login</span>
             </li>
-            <li><a href="/cbt" className="hover:text-yellow-400">CBT Questions</a></li>
-            <li><a href="/past" className="hover:text-yellow-400">Past Questions</a></li>
-            <li><a href="/blog" className="hover:text-yellow-400">Blog</a></li>
+            <li><a href="/CBT Exam" className="hover:text-yellow-400">CBT Questions</a></li>
+            <li><a href="/Past Questions" className="hover:text-yellow-400">Past Questions</a></li>
+            <li><a href="/Blog" className="hover:text-yellow-400">Blog</a></li>
           </ul>
         </motion.div>
 
