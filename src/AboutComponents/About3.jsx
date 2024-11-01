@@ -1,34 +1,29 @@
-import React from 'react'
+import React from 'react';
 
 function About3() {
   return (
-    <div className=' w-full h-[80vh] grid grid-cols-2 '>
-      <div className='  flex  bg-[red] border-transparent  '>
-      <div className="flex flex-col justify-center  md:flex-row items-center  w-full max-w-6xl px-6">
-        {/* Text Section */}
-        <div className="text-left md:w-1/2">
-          <h2 className="text-3xl font-bold text-[orangered] mb-8">What we believe</h2>
-          
-          <div className="space-y-4">
-            <div className="bg-white w-[150%] text-black font-semibold text-lg px-6 py-4 shadow-xl rounded-lg border-b-4 border-black">
-              Learning should not be a privilege; it must be for everyone.
-            </div>
-            <div className="bg-white w-[130%] text-black font-semibold text-lg px-6 py-4 shadow-xl rounded-lg border-b-4 border-black">
-              Always lead by example, nobody remembers second.
-            </div>
-            <div className="bg-white w-[110%] text-black font-semibold text-lg px-6 py-4 shadow-xl rounded-lg border-b-4 border-black">
-              Progress needs change. Be the change.
+    <>
+      <div className='h-[90vh] w-full bg-[url(./assets/smiling.jpg)] bg-cover bg-center grid grid-cols-1 md:grid-cols-2'>
+        <div className='bg-[#d8d8d8cc] border border-opacity-25 flex justify-center items-center mx-4 md:mr-[90px] p-4 md:p-0'>
+          <div className="text-left w-full md:w-1/2">
+            <h2 className="text-2xl md:text-3xl font-bold text-[orangered] mb-6 md:mb-8">What we believe</h2>
+            
+            <div className="space-y-4">
+              <div className="bg-white w-full md:w-[140%] text-black font-semibold text-base md:text-lg px-4 md:px-6 py-3 md:py-4 shadow-lg rounded-lg border-b-4 border-black">
+                Learning should not be a privilege; it must be for everyone.
+              </div>
+              <div className="bg-white w-full md:w-[120%] text-black font-semibold text-base md:text-lg px-4 md:px-6 py-3 md:py-4 shadow-lg rounded-lg border-b-4 border-black">
+                Always lead by example, nobody remembers second.
+              </div>
+              <div className="bg-white w-full md:w-[100%] text-black font-semibold text-base md:text-lg px-4 md:px-6 py-3 md:py-4 shadow-lg rounded-lg border-b-4 border-black">
+                Progress needs change. Be the change.
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Image Section */}
-        
       </div>
-      </div>
-      <div className=' bg-yellow-200  bg-[url(./assets/pics6.jpg)] bg-cover bg-center border-transparent'></div>
-    </div>
-  )
+    </>
+  );
 }
 
-export default About3
+export default About3;

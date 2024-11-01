@@ -3,7 +3,7 @@ import React from 'react'
 function About1() {
   return (
     <>
-    <div className=' h-[80vh] w-full  bg-center bg-cover bg-[url(./assets/pics3.jpg)] grid grid-cols-2' >
+    <div className=' h-[80vh] w-full  bg-center bg-cover bg-[url(./assets/students.jpg)] grid grid-cols-2' >
       <div className='  grid'>
         <div className='  grid grid-rows-3 bg-[#8080807c] mt  ml-[90px] rounded-sm'>
         <div className='  flex flex-col justify-center text-left pt-[70px]  pl-[120px] '>
