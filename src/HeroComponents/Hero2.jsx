@@ -2,7 +2,7 @@ import React from 'react'
 
 function Hero2() {
   return (
-    <div className=' w-full h-[70vh] bg-[#080836cb] flex flex-col'>
+    <div className=' w-full h-[70vh]  bg-[#080836] flex flex-col'>
        <div className=' h-[25%] flex justify-center items-center'>
         <h1 className=' text-[white] text-[40px] font-semibold'>Get Started. Get Results.</h1>
        </div>
