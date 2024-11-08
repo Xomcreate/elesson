@@ -59,7 +59,7 @@ function Header() {
               <Link to='/About'>About</Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/cbt' ? 'text-[orangered]' : ''}`}>
-              <Link to='/CBT Exam'>CBT Exam</Link>
+              <Link to='/CBT Exam'>CBT </Link>
             </li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/past' ? 'text-[orangered]' : ''}`}>
               <Link to='/Past Questions'>Past Questions</Link>
