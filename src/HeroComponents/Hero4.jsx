@@ -31,7 +31,7 @@ const Hero4 = () => {
   };
 
   return (
-    <div className="bg-[grey] py-8 px-4 text-white">
+    <div id='Hero4'  className="bg-[grey] py-8 px-4  text-white">
       <h2 className="text-3xl font-bold text-center mb-6">Frequently Asked Questions</h2>
       <div className="max-w-4xl mx-auto">
         {questions.map((faq, index) => (

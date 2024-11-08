@@ -67,7 +67,7 @@ function Header() {
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/blog' ? 'text-[orangered]' : ''}`}>
               <Link to='/Blog'>Blog</Link>
             </li>
-            <li className='hover:text-yellow-400 transition-all duration-300'>FAQ</li>
+            <li className='hover:text-yellow-400 transition-all duration-300'><a href=" #Hero4">FAQ</a></li>
             <li className={`hover:text-yellow-400 transition-all duration-300 ${location.pathname === '/contact' ? 'text-[orangered]' : ''}`}>
               <Link to='/Contact'>Contacts</Link>
             </li>

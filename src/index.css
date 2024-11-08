@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+html{
+  scroll-behavior: smooth;
+}
+
 /* CSS Animations for scrolling effect */
 .slide-in-right {
     transform: translateX(100%);
