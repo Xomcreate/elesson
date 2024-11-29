@@ -9,9 +9,14 @@ import About from './SchoolComponents/About';
 import Pastquestions from './SchoolComponents/Pastquestions';
 import Cbtquestions from './SchoolComponents/Cbtquestions';
 import Contactus from './SchoolComponents/Contactus';
-import Blog from './SchoolComponents/Blog';
 import Footer from './SchoolComponents/Footer';
-import Register from './SchoolComponents/Register'; // Import Register
+import Register from './SchoolComponents/Register';
+import Admin from './DashboardComponents/Admin';
+import User from './DashboardComponents/User';
+
+
+
+ // Import Register
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,6 +29,12 @@ createRoot(document.getElementById('root')).render(
         <Route path='/Past Questions' element={<Pastquestions />} />
         <Route path='/Contact' element={<Contactus />} />
         <Route path='/Register' element={<Register />} /> {/* Register route */}
+        <Route path='/codecraft' element={<Admin />} />
+        <Route path='/user' element={<User />} /> {/* Register route */}
+        
+        
+
+
       </Routes>
       <Footer />
     </BrowserRouter>
