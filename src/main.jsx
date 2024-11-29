@@ -21,7 +21,6 @@ createRoot(document.getElementById('root')).render(
         <Route path='/' element={<Hero />} />
         <Route path='/About' element={<About />} />
         <Route path='/CBT Exam' element={<Cbtquestions />} />
-        <Route path='/Blog' element={<Blog />} />
         <Route path='/Past Questions' element={<Pastquestions />} />
         <Route path='/Contact' element={<Contactus />} />
         <Route path='/Register' element={<Register />} /> {/* Register route */}
