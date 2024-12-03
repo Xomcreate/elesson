@@ -68,11 +68,7 @@ function Login({ onClose }) {
           <div className="text-center">
             <motion.button
               type="submit"
-<<<<<<< HEAD
-              className="w-full py-3 bg-[orangered] text-white font-bold rounded-lg shadow-md hover:bg-orange-600 focus:outline-none focus:ring focus:ring-orange-300"
-=======
               className="w-full py-3 bg-orange-500 text-white font-bold rounded-lg shadow-md hover:bg-orange-600 focus:outline-none focus:ring focus:ring-orange-300"
->>>>>>> b1725a826c4ad6a0de88d2b89378722c0be44054
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
