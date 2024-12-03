@@ -88,11 +88,11 @@ function User() {
       </div>
 
       {/* Main Content */}
-      <main className="col-span-9 lg:col-span-10  bg-[white] ">
+      <main className="col-span-9 lg:col-span-10 p-6 bg-[white] shadow-inner">
         {/* Render Section Based on Active Tab */}
         {activeSection === 'details' && <Details />}
         {activeSection === 'login' && <Log />}
-        {activeSection === 'profile' && <Profile/>}
+        {activeSection === 'profile' && <Profile />}
         {activeSection === '' && <Welcome />}
       </main>
     </div>
