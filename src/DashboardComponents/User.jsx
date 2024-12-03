@@ -58,7 +58,7 @@ function User() {
       </div>
 
       {/* Content Section */}
-      <div className="col-span-6 bg-slate-900">
+      <div className="col-span-6 ">
         {/* Conditionally render based on activeSection */}
         {activeSection === 'details' && <Details />}
         {activeSection === 'login' && <Log />}
