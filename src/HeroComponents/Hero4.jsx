@@ -44,7 +44,7 @@ const Hero4 = () => {
             >
               <span>{faq.question}</span>
               <span
-                className={`transform transition-transform duration-300 ${
+                className={`transform transition-transform duration-150 ${
                   activeIndex === index ? 'rotate-180' : 'rotate-0'
                 }`}
               >
@@ -57,7 +57,7 @@ const Hero4 = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }} // Faster animation
                   className="px-5 py-4 bg-gray-800"
                 >
                   <p className="text-[white]">{faq.answer}</p>
