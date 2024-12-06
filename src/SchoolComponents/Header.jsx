@@ -13,7 +13,6 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Framer Motion animation for the mobile menu
   const menuVariants = {
     open: { 
       opacity: 1, 
@@ -35,7 +34,6 @@ function Header() {
     },
   };
 
-  // Stagger effect for menu items
   const itemVariants = {
     hidden: { opacity: 0, x: -20 },
     visible: { opacity: 1, x: 0 },

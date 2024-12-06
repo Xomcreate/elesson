@@ -59,13 +59,11 @@ function Footer() {
               <a href="https://github.com/Xomcreate" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400">
                 <FaGithub className='text-[15px]' />
               </a>
-              Kings & Prisca
             </li>
             <li className='flex gap-[10px] items-center'>
               <a href="https://www.linkedin.com/in/david-igboanusi-757a66270/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500">
                 <FaLinkedin className='text-[15px]' />
               </a>
-              Kings & Prisca
             </li>
           </ul>
         </motion.div>
