@@ -1,45 +1,50 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom"
+import myImage from "../assets/myguy.jpg"; // Import the image
 
 function Welcome() {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   return (
-    <> 
-      <div className="bg-[white] grid h-[100vh] grid-rows-5 gap-[10px]">
+    <div className="flex  justify-center min-h-[100vh] bg-gray-300">
+      <div className="flex mt-[30px] flex-col items-center text-center space-y-8">
         {/* Image Section */}
-        <div className="row-span-2 grid justify-center mt-[20px] rounded-[40px] items-center bg-center bg-contain bg-no-repeat bg-[url(./assets/myguy.jpg)]"></div>
+        <div
+          className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 bg-center bg-cover bg-no-repeat rounded-full"
+          style={{ backgroundImage: `url(${myImage})` }}
+          aria-label="Welcome image"
+        ></div>
 
         {/* Welcome Text Section */}
-        <div className="row-span-3 flex flex-col justify-start mt-[30px]">
-          <h1 className="text-[orangered] font-serif text-[40px] sm:text-[30px] md:text-[35px] lg:text-[40px] text-center">
+        <div className="space-y-4">
+          <h1 className="text-orangered font-serif text-4xl sm:text-3xl md:text-4xl lg:text-5xl">
             WELCOME, DEX
           </h1>
-          <p className="text-[black] text-[25px] sm:text-[18px] md:text-[20px] lg:text-[25px] font-serif text-center">
-            "Your Journey to success starts here"
+          <p className="text-gray-700 text-lg sm:text-base md:text-lg lg:text-xl font-medium">
+            "Your journey to success starts here."
           </p>
-          <p className="text-center text-[20px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-[black] font-serif">
-            Let's Get Started
+          <p className="text-gray-500 text-base sm:text-sm md:text-base lg:text-lg">
+            Let's get started!
           </p>
-          <div className="text-center flex flex-row gap-[20px] mt-[60px] justify-center items-center flex-wrap">
-            {/* Past Questions Button */}
-            <button
-              className="bg-[orangered] h-[6vh] sm:h-[18vh] md:h-[7vh] lg:h-[6vh] w-[20vw] sm:w-[30vw] md:w-[20vw] lg:w-[10vw] font-bold text-white rounded-lg"
-              onClick={() => navigate('/Past Questions')} // Navigate to Past Questions page
-            >
-              Past Questions
-            </button>
-            {/* CBT Exam Button */}
-            <button
-              className="bg-[orangered] h-[6vh] sm:h-[18vh] md:h-[7vh] lg:h-[6vh] w-[20vw] sm:w-[30vw] md:w-[20vw] lg:w-[10vw] font-bold text-white rounded-lg"
-              onClick={() => navigate('/CBT Exam')} // Navigate to CBT Exam page
-            >
-              CBT Exam
-            </button>
-          </div>
+        </div>
+
+        {/* Button Section */}
+        <div className="flex flex-wrap justify-center gap-6">
+          <button
+            className="px-6 py-3 bg-[orangered] text-black rounded-lg font-semibold shadow hover:bg-orange-500 transition-all"
+            onClick={() => navigate("/Past Questions")}
+          >
+            Past Questions
+          </button>
+          <button
+            className="px-6 py-3 bg-[orangered] text-black rounded-lg font-semibold shadow hover:bg-orange-500 transition-all"
+            onClick={() => navigate("/CBT Exam")}
+          >
+            CBT Exam
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
