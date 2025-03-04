@@ -12,15 +12,20 @@ import Footer from './SchoolComponents/Footer';
 import Register from './SchoolComponents/Register';
 import Admin from './DashboardComponents/Admin';
 import User from './DashboardComponents/User';
+import ForgotPassword from './SchoolComponents/ForgotPassword';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
+
+// Import our FancyAlert component and its trigger
+import FancyAlert, { triggerFancyAlert } from './SchoolComponents/FancyAlert';
+
+// Override the global alert function to trigger our fancy alert
+window.alert = triggerFancyAlert;
 
 // Layout component to handle Header and Footer visibility
 const Layout = ({ children }) => {
   const location = useLocation();
-
   // Routes where Header and Footer should be hidden
   const hideHeaderFooter = location.pathname === '/codecraft';
-
   return (
     <>
       {!hideHeaderFooter && <Header />}
@@ -53,12 +58,23 @@ createRoot(document.getElementById('root')).render(
               </ProtectedRoute>
             }
           />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/Contact" element={<Contactus />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/codecraft" element={<Admin />} />
-          <Route path="/user" element={<User />} />
+          {/* Protect the User route as well */}
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute>
+                <User />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
+      {/* Render the FancyAlert component globally */}
+      <FancyAlert />
     </BrowserRouter>
   </StrictMode>
 );
