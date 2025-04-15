@@ -9,22 +9,17 @@ function Pastquestions() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Simulated subjects and years
     setSubjects([
-      "Mathematics",
-      "English",
-      "Physics",
-      "Chemistry",
-      "Biology",
-      "Economics",
-      "Government",
-      "History",
-      "Geography",
-      "Commerce",
-      "Agriculture",
-      "Literature",
+      "Mathematics", "English", "Physics", "Chemistry", "Biology",
+      "Economics", "Government", "History", "Geography", "Commerce",
+      "Agriculture", "Literature",
     ]);
-    setYears([ "2024","2023", "2022", "2021", "2020", "2019"]);
+
+    const yearList = [];
+    for (let y = 2024; y >= 2000; y--) {
+      yearList.push(y.toString());
+    }
+    setYears(yearList);
   }, []);
 
   const fetchQuestions = async () => {
@@ -36,14 +31,30 @@ function Pastquestions() {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
-        `/api/past-questions?subject=${selectedSubject}&year=${selectedYear}`
+        `http://localhost:3000/api/past-questions?subject=${selectedSubject}&year=${selectedYear}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       const data = await response.json();
-      setQuestions(data.questions || []);
+
+      if (response.ok) {
+        console.log("Fetched questions:", data);
+        setQuestions(data || []);
+      } else {
+        setQuestions([]);
+        alert(data.message || "Error fetching questions");
+      }
     } catch (error) {
       console.error("Error fetching questions:", error);
       setQuestions([]);
+      alert("Error fetching questions, please try again later.");
     } finally {
       setLoading(false);
     }
@@ -51,11 +62,9 @@ function Pastquestions() {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        Past Questions
-      </h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Past Questions</h1>
 
-      {/* Subject Selection */}
+      {/* Subject Selector */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-4">Select a Subject:</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -75,7 +84,7 @@ function Pastquestions() {
         </div>
       </div>
 
-      {/* Year Selection */}
+      {/* Year Selector */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-4">Select a Year:</h2>
         <select
@@ -97,25 +106,46 @@ function Pastquestions() {
         <button
           onClick={fetchQuestions}
           className="bg-[orangered] text-white px-6 py-2 rounded-md hover:bg-blue-700"
+          disabled={loading}
         >
           {loading ? "Loading..." : "Get Questions"}
         </button>
       </div>
 
-      {/* Questions Display */}
+      {/* Questions Output */}
       <div>
         {loading ? (
           <p className="text-center text-blue-500">Fetching questions...</p>
         ) : questions.length > 0 ? (
           <div>
             <h2 className="text-xl font-semibold mb-4">Questions:</h2>
-            <ul className="space-y-4">
-              {questions.map((question, index) => (
+            <ul className="space-y-6">
+              {questions.map((q, index) => (
                 <li
                   key={index}
                   className="p-4 border rounded-md shadow-md bg-gray-50"
                 >
-                  {index + 1}. {question}
+                  <p className="font-semibold mb-2">
+                    {index + 1}. {q.question}
+                  </p>
+                  {/* Display options as A, B, C, D, E */}
+                  <ul className="mb-2">
+                    {q.options.map((option, i) => (
+                      <li key={i} className="flex items-center">
+                        <span className="font-semibold">
+                          {String.fromCharCode(65 + i)}.{" "}
+                        </span>
+                        {option}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-green-600 font-medium">
+                    Answer: {q.answer}
+                  </p>
+                  {/* Solution Part */}
+                  <p className="text-blue-500 mt-2">
+                    Solution: {q.solution}
+                  </p>
                 </li>
               ))}
             </ul>

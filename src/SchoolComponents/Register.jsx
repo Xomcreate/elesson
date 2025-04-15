@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Login from "./Login"; // Import the Login component
+import axios from "axios";
 
 function Register() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -18,25 +19,21 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Open/close the login modal
+  const nigerianStates = [
+    "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno", 
+    "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "Gombe", "Imo", "Jigawa", 
+    "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", 
+    "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe", "Zamfara"
+  ];
+
   const openLoginModal = () => setIsLoginOpen(true);
   const closeLoginModal = () => setIsLoginOpen(false);
-
-  // Callback invoked by the Login modal after a successful login.
-  // It saves the token and dispatches a custom event so the Header updates immediately.
-  const handleLoginSuccess = (token) => {
-    if (token) {
-      localStorage.setItem("token", token);
-      window.dispatchEvent(new CustomEvent("userLoggedIn", { detail: { token } }));
-    }
-    closeLoginModal();
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Check if passwords match when either field changes
+    // Check if passwords match
     if (name === "password" || name === "confirmPassword") {
       const password = name === "password" ? value : formData.password;
       const confirmPassword = name === "confirmPassword" ? value : formData.confirmPassword;
@@ -47,45 +44,43 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure passwords match
+    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       setPasswordsMatch(false);
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log("Registration successful:", response.data);
+      alert("Registration successful!");
+
+      // Store the returned user data in localStorage
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("username", response.data.user.username);
+
+      // Clear form inputs
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        phoneNumber: "",
+        state: "",
+        password: "",
+        confirmPassword: "",
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Registration successful:", data);
-        alert("Registration successful!");
-
-        // Clear form inputs
-        setFormData({
-          firstName: "",
-          lastName: "",
-          username: "",
-          email: "",
-          phoneNumber: "",
-          state: "",
-          password: "",
-          confirmPassword: "",
-        });
-
-        // Open the login modal so the user can log in immediately
-        openLoginModal();
-      } else {
-        console.error("Registration failed:", data.message);
-        alert(`Registration failed: ${data.message}`);
-      }
+      // Open the login modal
+      openLoginModal();
     } catch (err) {
-      console.error("Error:", err);
-      alert("An error occurred. Please try again.");
+      console.error("Registration failed:", err.response?.data?.message || err.message);
+      alert(`Registration failed: ${err.response?.data?.message || err.message}`);
     }
   };
 
@@ -122,6 +117,7 @@ function Register() {
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none"
               />
             </div>
+
             <div className="w-1/2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Last Name
@@ -152,6 +148,7 @@ function Register() {
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none"
               />
             </div>
+
             <div className="w-1/2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -182,18 +179,24 @@ function Register() {
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none"
               />
             </div>
+
             <div className="w-1/2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 State
               </label>
-              <input
-                type="text"
+              <select
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
-                placeholder="State"
                 className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none"
-              />
+              >
+                <option value="">Select State</option>
+                {nigerianStates.map((state, index) => (
+                  <option key={index} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -218,19 +221,52 @@ function Register() {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                 >
                   {showPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
                     </svg>
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 1.053 0 2.062.18 3 .512v2.144a6 6 0 00-3 10.728z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 1.053 0 2.062.18 3 .512v2.144a6 6 0 00-3 10.728z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
                     </svg>
                   )}
                 </button>
               </div>
             </div>
+
             <div className="w-1/2 relative">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm Password
@@ -242,7 +278,9 @@ function Register() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Confirm password"
-                  className={`w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none ${!passwordsMatch ? "border-red-500" : ""}`}
+                  className={`w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-orange-300 focus:outline-none ${
+                    !passwordsMatch ? "border-red-500" : ""
+                  }`}
                 />
                 <button
                   type="button"
@@ -250,22 +288,52 @@ function Register() {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                 >
                   {showConfirmPassword ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
                     </svg>
                   ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 1.053 0 2.062.18 3 .512v2.144a6 6 0 00-3 10.728z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 1.053 0 2.062.18 3 .512v2.144a6 6 0 00-3 10.728z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
                     </svg>
                   )}
                 </button>
               </div>
               {!passwordsMatch && (
-                <p className="text-red-500 text-sm mt-1">
-                  Passwords do not match
-                </p>
+                <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
               )}
             </div>
           </div>
@@ -297,10 +365,8 @@ function Register() {
         </div>
       </motion.div>
 
-      {/* Login Modal with onLoginSuccess callback passed */}
-      {isLoginOpen && (
-        <Login onClose={closeLoginModal} onLoginSuccess={handleLoginSuccess} />
-      )}
+      {/* Login Modal */}
+      {isLoginOpen && <Login onClose={closeLoginModal} />}
     </div>
   );
 }

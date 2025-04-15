@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaUserGraduate, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login({ onClose, onLoginSuccess }) {
   const [formData, setFormData] = useState({
@@ -10,6 +12,7 @@ function Login({ onClose, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -20,7 +23,7 @@ function Login({ onClose, onLoginSuccess }) {
     }));
   };
 
-  // Toggle the password field visibility
+  // Toggle password visibility
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -37,31 +40,47 @@ function Login({ onClose, onLoginSuccess }) {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
-      const data = await response.json();
+      const data = response.data;
+      console.log(data);
 
-      if (response.ok) {
+      if (response.status === 200) {
+        // Save token and role
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user.role);
+
+        // Dispatch an event if needed
         window.dispatchEvent(
           new CustomEvent("userLoggedIn", { detail: { token: data.token } })
         );
+
+        // Optionally call a callback
         if (onLoginSuccess) {
           onLoginSuccess(data.token);
         }
         setLoading(false);
-        onClose();
+        onClose && onClose();
+
+        // Route based on user role
+        if (data.user.role === "Admin") {
+          localStorage.setItem("adminName", data.user.username);
+          navigate("/codecraft", { state: { adminName: data.user.username } });
+        } else {
+          localStorage.setItem("username", data.user.username);
+          navigate("/user", { state: { username: data.user.username } });
+        }
       } else {
         setError(data.message || "Login failed. Please try again.");
         setLoading(false);
       }
     } catch (err) {
       console.error("Error:", err);
-      setError("An error occurred. Please try again.");
+      setError("Invalid Password");
       setLoading(false);
     }
   };
@@ -86,7 +105,7 @@ function Login({ onClose, onLoginSuccess }) {
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800 flex items-center justify-center">
             <FaUserGraduate size={24} className="text-orange-500 mr-2" />
-            Student's Login
+            Login
           </h1>
           <p className="text-sm text-gray-500">Access your account</p>
         </div>
@@ -113,7 +132,7 @@ function Login({ onClose, onLoginSuccess }) {
             />
           </div>
 
-          {/* Password Field with Centered Toggle Icon */}
+          {/* Password Field */}
           <div className="relative">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
@@ -128,7 +147,6 @@ function Login({ onClose, onLoginSuccess }) {
                 autoComplete="current-password"
                 className="w-full px-4 py-2 pr-12 border rounded-lg shadow-sm text-black focus:ring focus:ring-orange-300 focus:outline-none"
               />
-              {/* Toggle Button - Perfectly Centered */}
               <button
                 type="button"
                 onClick={toggleShowPassword}
