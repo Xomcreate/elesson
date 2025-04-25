@@ -1,33 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import UpcomingTests from './UpcomingTests'; // <-- Make sure the path is correct
 
 function Cbt() {
   const testResults = [
     { label: "Score Achieved", value: "85/100" },
     { label: "Breakdown (By Subject/Topic)", value: "Math: 40, Science: 25, English: 20" },
     { label: "Percentage/Grade", value: "85% (A)" },
-  ];
-
-  const upcomingTests = [
-    {
-      date: "Dec 12, 2024, 10:00 AM",
-      subjects: "Math, Science",
-      timeLimit: "1 hour",
-      format: "Multiple Choice",
-    },
-    {
-      date: "Dec 15, 2024, 2:00 PM",
-      subjects: "English, History",
-      timeLimit: "1.5 hours",
-      format: "Essay and Short Answer",
-    },
-    {
-      date: "Dec 20, 2024, 9:00 AM",
-      subjects: "Physics, Chemistry",
-      timeLimit: "2 hours",
-      format: "Practical and Theory",
-    },
   ];
 
   const progressData = [
@@ -83,19 +63,10 @@ function Cbt() {
           </Card>
         </motion.div>
 
-        {/* Upcoming Tests */}
+        {/* Upcoming Tests - replaced with component */}
         <motion.div variants={cardVariants} initial="hidden" animate="visible">
           <Card title="Upcoming Tests">
-            <ul className="space-y-2">
-              {upcomingTests.map((test, index) => (
-                <li key={index} className="bg-green-100 p-2 rounded-lg">
-                  <p><strong>Date/Time:</strong> {test.date}</p>
-                  <p><strong>Subjects:</strong> {test.subjects}</p>
-                  <p><strong>Time Limit:</strong> {test.timeLimit}</p>
-                  <p><strong>Format:</strong> {test.format}</p>
-                </li>
-              ))}
-            </ul>
+            <UpcomingTests />
           </Card>
         </motion.div>
 

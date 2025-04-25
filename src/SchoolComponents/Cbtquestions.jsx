@@ -12,23 +12,12 @@ const Cbtquestions = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [finalScore, setFinalScore] = useState(null);
 
-  // List of available subjects.
   const subjects = [
-    "Mathematics",
-    "English",
-    "Biology",
-    "Chemistry",
-    "Physics",
-    "History",
-    "Geography",
-    "Economics",
-    "Civic",
-    "Literature",
-    "Agric",
-    "Computer"
+    "Mathematics", "English", "Biology", "Chemistry", "Physics",
+    "History", "Geography", "Economics", "Civic",
+    "Literature", "Agric", "Computer"
   ];
 
-  // Fetch questions from the backend based on the selected subjects.
   const fetchQuestions = async () => {
     try {
       const response = await axios.post("http://localhost:3000/api/cbt/getQuestions", {
@@ -40,7 +29,6 @@ const Cbtquestions = () => {
     }
   };
 
-  // When test starts, set the timer and fetch questions.
   useEffect(() => {
     if (step === 2 && selectedSubjects.length > 0) {
       setTimeLeft(duration * 60);
@@ -48,7 +36,6 @@ const Cbtquestions = () => {
     }
   }, [step, selectedSubjects, duration]);
 
-  // Countdown timer.
   useEffect(() => {
     if (timeLeft > 0 && step === 2) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
@@ -58,7 +45,6 @@ const Cbtquestions = () => {
     }
   }, [timeLeft, step]);
 
-  // Toggle a subject selection.
   const toggleSubjectSelection = (subject) => {
     setSelectedSubjects((prev) =>
       prev.includes(subject)
@@ -67,7 +53,6 @@ const Cbtquestions = () => {
     );
   };
 
-  // Validate and start the test.
   const startTest = () => {
     if (selectedSubjects.length !== 4) {
       alert("Please select exactly 4 subjects.");
@@ -80,50 +65,92 @@ const Cbtquestions = () => {
     setStep(2);
   };
 
-  // Record the user's answer using a unique key combining subject and question index.
   const handleAnswerChange = (subjectIndex, questionIndex, selectedOption) => {
     const key = `${subjectIndex}-${questionIndex}`;
     setUserAnswers((prev) => ({ ...prev, [key]: selectedOption }));
   };
 
-  // Calculate the final score:
-  // For each question answered correctly, add 2 marks; for each wrong answer, subtract 2 marks.
-  // Unanswered questions do not affect the score.
-  // If the computed score is negative, set it to 0.
   const calculateScore = () => {
     let correctCount = 0;
-    let wrongCount = 0;
 
     selectedSubjects.forEach((subject, subjectIndex) => {
       const subjectQuestions = questions[subject] || [];
       subjectQuestions.forEach((question, questionIndex) => {
         const key = `${subjectIndex}-${questionIndex}`;
-        if (userAnswers.hasOwnProperty(key)) {
-          if (userAnswers[key] === question.correctAnswer) {
-            correctCount++;
-          } else {
-            wrongCount++;
-          }
+        const correctAnswer = question.answer || question.correctAnswer;
+        if (
+          userAnswers.hasOwnProperty(key) &&
+          userAnswers[key] === correctAnswer
+        ) {
+          correctCount++;
         }
       });
     });
 
-    let score = (correctCount - wrongCount) * 2;
-    return score < 0 ? 0 : score;
+    return correctCount;
   };
 
-  // Submit test: calculate score and update state.
-  const handleSubmit = () => {
+  const calculatePercentageAndGrade = (score, total) => {
+    const percentage = (score / total) * 100;
+    let grade;
+
+    if (percentage >= 75) grade = "A";
+    else if (percentage >= 65) grade = "B";
+    else if (percentage >= 50) grade = "C";
+    else if (percentage >= 40) grade = "D";
+    else grade = "F";
+
+    return { percentage, grade };
+  };
+
+  const handleSubmit = async () => {
     if (Object.keys(userAnswers).length === 0) {
       alert("Please answer at least one question before submitting.");
       return;
     }
+
     const scoreResult = calculateScore();
     setFinalScore(scoreResult);
     setStep(3);
+
+    const totalQuestions = selectedSubjects.reduce(
+      (sum, subject) => sum + (questions[subject]?.length || 0),
+      0
+    );
+
+    const { percentage, grade } = calculatePercentageAndGrade(scoreResult, totalQuestions);
+
+    const subjectBreakdown = selectedSubjects.map((subject, subjectIndex) => {
+      const subjectQuestions = questions[subject] || [];
+      let correct = 0;
+
+      subjectQuestions.forEach((q, questionIndex) => {
+        const key = `${subjectIndex}-${questionIndex}`;
+        if (userAnswers[key] === (q.answer || q.correctAnswer)) {
+          correct++;
+        }
+      });
+
+      return {
+        subject,
+        total: subjectQuestions.length,
+        correct,
+      };
+    });
+
+    try {
+      await axios.post("http://localhost:3000/api/cbt/submitResult", {
+        score: scoreResult,
+        percentage,
+        grade,
+        subjectBreakdown,
+        date: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error("Error submitting result:", error);
+    }
   };
 
-  // Navigation for questions.
   const handleNextQuestion = () => {
     const currentQuestions = questions[selectedSubjects[currentSubjectIndex]] || [];
     if (currentQuestionIndex < currentQuestions.length - 1) {
@@ -254,8 +281,7 @@ const Cbtquestions = () => {
               </div>
 
               <p className="mb-4 text-gray-700">
-                {questions[selectedSubjects[currentSubjectIndex]]?.[currentQuestionIndex]?.question ||
-                  "No question available."}
+                {questions[selectedSubjects[currentSubjectIndex]]?.[currentQuestionIndex]?.question || "No question available."}
               </p>
               <div className="space-y-2">
                 {questions[selectedSubjects[currentSubjectIndex]]?.[currentQuestionIndex]?.options?.map(
@@ -306,11 +332,10 @@ const Cbtquestions = () => {
             <div className="mt-6 text-center">
               <h2 className="text-xl font-semibold mb-4">Test Completed</h2>
               <p className="text-lg font-medium text-gray-800">
-                Your Score: {finalScore} / 400
+                Your Score: {finalScore} / 180
               </p>
               <button
                 onClick={() => {
-                  // Reset state for a new test.
                   setStep(1);
                   setSelectedSubjects([]);
                   setUserAnswers({});
